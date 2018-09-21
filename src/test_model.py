@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import argparse
 import operator
+import random
 import copy
 from base_model import BaseModel
 
@@ -18,8 +19,9 @@ from base_model import BaseModel
 #=============================
 class TestModel(BaseModel) :
 
-	def __init__(self, data_set)
-		BaseModel.__init__(self, data_set)
+	def __init__(self, data, num_clusters):
+		BaseModel.__init__(self, data)
+		self.num_clusters = num_clusters
 
 	#=============================
 	# train()
@@ -28,23 +30,25 @@ class TestModel(BaseModel) :
 	#=============================
 	def train(self):
 		print('Test class training')
+		self.clusters = np.array_split(self.data, self.num_clusters)
+		return
+
 
 	#=============================
 	# evaluate()
 	#
 	#	- evaluate the model 
 	#
-	#@param		test_data	optional, can provide other data set to use
 	#@return				value of performance
 	#=============================
-	def evaluate(self, test_data=-1):
-		print('Test Class training')
-		if (test_data == -1):
-			print('No input test_data provided, evaluating performance on my training data')
+	def evaluate(self):
+		#print('Evaluate Cluster Training')
+		sum = 0
+		for cluster in self.clusters:
+			sum += cluster.values.sum()
+			
+		return sum
 
-		print('evaluating the test model, for now returning 1')
-		#TODO: return the sum of the features
-		return 1;
 
 #=============================
 # MAIN PROGRAM
@@ -56,13 +60,14 @@ def main():
 	print('TEST 1: dummy data')
 	print('input data1:')
 	#TODO: turn this into dataframe
-	test_data = [[0, 0, 0], [1, 1, 1], [ -1, -1, -1], [2, 2, 2]] #Should Select columns 0 && 1
+	test_data = pd.DataFrame([[0, 1, -1], [0, 1, -1],[0, 1, -1]])
 	print(test_data)
+	print()
 
 	test_model = TestModel(test_data)
 	test_model.train()
 	result = test_model.evaluate()
-	print('Result: ')
+	print('Result (vector of sums): ')
 	print(result)
 
 

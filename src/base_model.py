@@ -15,10 +15,10 @@ import copy
 #
 # - Base class of a model / classifier 
 #=============================
-class StepwiseForwardSelection:
+class BaseModel:
 
-	def __init__(self, data_set)
-		self.data = data_set
+	def __init__(self, data):
+		self.data = data
 
 	#=============================
 	# train()
