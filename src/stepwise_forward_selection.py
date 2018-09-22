@@ -42,7 +42,7 @@ class StepwiseForwardSelection:
 	#
 	#@return	winning features as a list (i.e. [0, 2, 5])
 	#=============================
-	def run_sfs(self, clusters=2):
+	def run_sfs(self, num_clusters=2):
 		chosen_features = list() #list of column numbers corresponding to chosen features
 		chosen_data_set = pd.DataFrame()
 
@@ -51,7 +51,7 @@ class StepwiseForwardSelection:
 		best_performance = -1
 		best_features = -1
 		#best_model = TestModel(self.data, clusters) #used only for testing
-		best_model = KMeans(self.data, clusters)
+		best_model = KMeans(self.data, num_clusters)
 		self.chosen_model = best_model
 
 		while (1):
@@ -81,12 +81,14 @@ class StepwiseForwardSelection:
 				#print('chosen_data_set after concat:')
 				#print(chosen_data_set)
 				#model = TestModel(chosen_data_set, 2)
-				model = KMeans(chosen_data_set, 2)
+				model = KMeans(chosen_data_set, num_clusters)
 				model.train()
 				current_performance = model.evaluate()
 
 				print('for feature ', column, 'best perf', best_performance, \
 						' vs. current_perf', current_performance)
+				print('chosen_data_set')
+				print(chosen_data_set)
 				if current_performance > best_performance:
 					best_performance = current_performance
 					best_model = model
@@ -117,7 +119,7 @@ class StepwiseForwardSelection:
 			else:
 				break
 
-		print('final best performance', base_performance)
+		#print('final best performance', base_performance)
 		#print('chosen features') 
 		#print(chosen_features)
 		#print(chosen_data_set)
