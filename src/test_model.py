@@ -29,7 +29,7 @@ class TestModel(BaseModel) :
 	#	- train on the data set
 	#=============================
 	def train(self):
-		print('Test class training')
+		#print('Test class training')
 		self.clusters = np.array_split(self.data, self.num_clusters)
 		return
 

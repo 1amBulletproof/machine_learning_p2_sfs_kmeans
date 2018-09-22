@@ -53,19 +53,20 @@ class StepwiseForwardSelection:
 
 		while (1):
 			num_chosen_features = len(chosen_features) #can be used as next column index to add to data set
-			print('number of chosen features:', num_chosen_features)
-			print('Iterate over all features')
-			print('------------------------')
+			#print('number of chosen features:', num_chosen_features)
+			#print('Iterate over all features')
+			#print('------------------------')
 			for column in self.data:
 				#Account for (skip) features already been chosen as best
 				if column in chosen_features:
-					print('Already selected this column', column, ' Skippin')
+					#print('Already selected this column', column, ' Skippin')
 					continue
 
 				#Select a feature (column)
 				chosen_features.append(column)
-				print('chosen_features:')
-				print(chosen_features)
+				#print('chosen_features:')
+				#print(chosen_features)
+
 				#Get the feature vector (column)
 				feature_vector = self.data[column]
 				#print('feature vector')
@@ -80,16 +81,15 @@ class StepwiseForwardSelection:
 				model.train()
 				current_performance = model.evaluate()
 
-				#TODO: May need to copy these values!
-				print('best perf', best_performance, ' vs. current_perf', current_performance)
+				#print('best perf', best_performance, ' vs. current_perf', current_performance)
 				if current_performance > best_performance:
 					best_performance = current_performance
 					best_model = model
 					best_feature = column
 					best_data = pd.DataFrame(chosen_data_set)
-					print('best performance now current perf', best_performance)
-					print('best_feature column', best_feature)
-					print(best_data)
+					#print('best performance now current perf', best_performance)
+					#print('best_feature column', best_feature)
+					#print(best_data)
 
 				#Remove the data & chosen feature & get next feature/data
 				column_to_drop = len(chosen_features) - 1
@@ -98,25 +98,25 @@ class StepwiseForwardSelection:
 				#print('chosen_data_set after drop:')
 				#print(chosen_data_set)
 				chosen_features.pop()
-			print('------------------------')
+			#print('------------------------')
 
-			#TODO: may need to copy these values manually
-			print('best perf', best_performance, ' vs. base_performance', base_performance)
+			#print('best perf', best_performance, ' vs. base_performance', base_performance)
 			if best_performance > base_performance:
 				base_performance = best_performance
 				chosen_features.append(best_feature)
 				chosen_data_set = best_data
 				chosen_model = best_model
-				print('base performance now best perf', base_performance)
-				print('chosen feature column', best_feature)
-				print(chosen_data_set)
+				#print('base performance now best perf', base_performance)
+				#print('chosen feature column', best_feature)
+				#print(chosen_data_set)
 			else:
 				break
 
-		print('base performance', base_performance)
-		print('chosen features') 
-		print(chosen_features)
-		print(chosen_data_set)
+		#print('base performance', base_performance)
+		#print('chosen features') 
+		#print(chosen_features)
+		#print(chosen_data_set)
+		return (chosen_features, chosen_data_set)
 
 #=============================
 # MAIN PROGRAM
@@ -125,18 +125,23 @@ def main():
 	print('Main() - testing the stepwise_forward_selection algorithm')
 
 	print()
-	print('TEST 1: dummy data')
+	print('TEST 1:')
+	print('Dummy data, split into 2 clusters, total sum for evaluation')
 	print('input data1:')
-	test_data = pd.DataFrame([[-1, 1, 2], [0, 1, 2]])
+	test_data = pd.DataFrame([[-1, 1, 2], [0, 1, 2]]) 
 	#test_data2 = pd.DataFrame([[0, 1, -1, 2], [0, 1, -1, 2],[0, 1, -1, 2]])
 	#test_data3 = pd.DataFrame([[1.0, 1.1],[3.3,5.5],[1.2,0.9],[3.0,5.3]])
 	#TODO: use the professors example with known final solution
 	print(test_data)
 
+	clusters = 2
 	sfs = StepwiseForwardSelection(test_data)
-	chosen_features = sfs.run_sfs()
-	#print('Winning model:')
-	#print(chosen_features)
+	results = sfs.run_sfs(clusters)
+	print('Expect col 2, then col 1 chosen, then perf. decrease and algo ends')
+	print('chosen features:')
+	print(results[0])
+	print('chosen data:')
+	print(results[1])
 
 
 if __name__ == '__main__':
