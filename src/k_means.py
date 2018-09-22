@@ -37,7 +37,7 @@ class KMeans(BaseModel) :
 	# get_euclidean_distance_vector()
 	#
 	#	- get the distance between two matrixes
-	#		- Note the axis will be x, y, or NONE 
+	#		- Note the axis will be 0 (column-wise), 1(row-wise)x, None (computer 1 value) 
 	#			depending on what val you want to calculate
 	#=============================
 	def get_euclidean_distance_vector(self, input_matrix_1, input_matrix_2, axis_in):
@@ -59,9 +59,9 @@ class KMeans(BaseModel) :
 			#Find the clusters via closest distance
 			for row in range(self.num_data_rows):
 				#Get the distances from the clusters across all features
-				x_axis = 1 #get the x_axis distances between features
+				between_rows = 1 
 				point_distances = \
-					self.get_euclidean_distance_vector(self.data[row], self.centroids, x_axis)
+					self.get_euclidean_distance_vector(self.data[row], self.centroids, between_rows)
 				#Get the index of the min val of distances
 				cluster_idx = np.argmin(point_distances)
 				#Use the index as the cluster name! Brilliant!
@@ -81,10 +81,41 @@ class KMeans(BaseModel) :
 				self.centroids[cluster_idx] = cluster_mean
 
 			#Get the total distance between two matrixes
+			total_distance = None
 			distance_between_new_and_old_centroids = \
-					self.get_euclidean_distance_vector(self.centroids, prev_centroids, None)
+					self.get_euclidean_distance_vector(self.centroids, prev_centroids, total_distance)
 
 		return self.centroids, self.clusters
+
+	#=============================
+	# get_point_silhouette_coefficient()
+	#=============================
+	def get_point_silhouette_coefficient(self, row_idx):
+		min_avg_distance_to_other_cluster = 1000 #This will ensure any value -1 -> 1 should be < therefore this val will be set by algorithm
+		for cluster_idx in range(self.num_clusters):
+				#Get the data points corresponding to the current cluster
+			cluster_data_points = \
+				[self.data[row] for row in range(self.num_data_rows) \
+					if self.clusters[row] == cluster_idx]
+			between_rows = 1
+			distance_to_this_cluster = \
+				self.get_euclidean_distance_vector(self.data[row_idx], cluster_data_points, between_rows)
+			#IF this is my cluster, calculate the average distance to all points from me
+			if cluster_idx == self.clusters[row_idx]:
+				avg_distance_to_my_cluster = np.mean(distance_to_this_cluster)
+			#IF this is NOT my cluster, calculate the average distance to all points from me	
+			else:
+				avg_distance_to_this_other_cluster = np.mean(distance_to_this_cluster)
+				if avg_distance_to_this_other_cluster < min_avg_distance_to_other_cluster:
+					min_avg_distance_to_other_cluster = avg_distance_to_this_other_cluster
+				
+		#print('min_avg_distance_to_my_cluster')
+		#print(avg_distance_to_my_cluster)
+		#print('min_avg_distance_to_other_cluster')
+		#print(min_avg_distance_to_other_cluster)
+		point_silhouette_coefficient = (min_avg_distance_to_other_cluster - avg_distance_to_my_cluster) / \
+				max(avg_distance_to_my_cluster, min_avg_distance_to_other_cluster)
+		return point_silhouette_coefficient
 
 	#=============================
 	# evaluate()
@@ -94,39 +125,64 @@ class KMeans(BaseModel) :
 	#@return	value of performance
 	#=============================
 	def evaluate(self):
-		print('Evaluate Cluster Training')
-		#TODO: Silhouette FCN
-		return -1
+		#print('Evaluate Cluster Training')
+
+		#Map get_silhouette_coefficient fcn onto every point in data?!
+			#- should result in array of coefficients
+		#for cluster_idx in range(self.clusters):
+			#self.cluster_silhouette_values[cluster_idx] = self.get_cluster_silhouette_coefficient(cluster_idx)
+			#Can use map, list comprehension, or vectorize here
+		#vector_get_point_silhouette_coefficient = np.vectorize(self.get_point_silhouette_coefficient)
+		#point_silhouette_values = vector_get_point_silhouette_coefficient(self.data)
+		point_silhouette_values = np.array([self.get_point_silhouette_coefficient(point) for point in range(self.num_data_rows)])
+		final_silhouette_value = np.mean(point_silhouette_values)
+
+		return final_silhouette_value
 
 
 #=============================
 # MAIN PROGRAM
 #=============================
 def main():
-	print('Main - test kmeans')
+	#print('Main - test kmeans')
+	print()
+	print('TEST: (2 clusters, small data)')
 	input_data = pd.DataFrame([[1.0,1.1],[3.3,5.5],[1.2,0.9],[3.0,5.3]])
-	print('Input data:')
+	print('input data:')
 	print(input_data)
-	print('expected output is Centroids c1{1.1, 1.0} && c2{3.15, 5.4} & Clusters {1,3} && {2,4} ')
 	num_clusters = 2
+	print()
+	print('TRAIN: (expect cluster [A, B, A, B] && centroids [1.1,1] [3.15, 5.4])')
 	kmeans_model = KMeans(input_data, num_clusters)
 	centroids, clusters = kmeans_model.train()
-	print('centroids')
-	print(centroids)
-	print('clusters')
+	print('clusters:')
 	print(clusters)
+	print('centroids:')
+	print(centroids)
+	print()
+	print('EVALUATE: silhouette value (-1 poor to +1 excellent clustering)')
+	silhouette_value = kmeans_model.evaluate()
+	print(silhouette_value)
 
-	input_data = pd.DataFrame([[1,1,1,1],[2,2,2,2],[3,3,3,3],[4,4,4,4],[5,5,5,5],[6,6,6,6],[7,7,7,7],[8,8,8,8],[9,9,9,9]])
-	print('Input data:')
+	print()
+	print()
+	print('TEST: (3 clusters, more data)')
+	input_data = pd.DataFrame([[1,1,1,1],[2,2,2,2],[3,3,3,3],[7,7,7,7],[8,8,8,8],[9,9,9,9],[13,13,13,13],[14,14,14,14],[15,15,15,15]])
+	print('input data:')
 	print(input_data)
 	num_clusters = 3
+	print()
+	print('TRAIN: ')
 	kmeans_model = KMeans(input_data, num_clusters)
 	centroids, clusters = kmeans_model.train()
-	print('centroids')
-	data_frame_centroid = pd.DataFrame(centroids)
-	print(centroids)
-	print('clusters')
+	print('clusters:')
 	print(clusters)
+	print('centroids:')
+	print(centroids)
+	print()
+	print('EVALUATE: silhouette value (-1 poor to +1 excellent clustering)')
+	silhouette_value = kmeans_model.evaluate()
+	print(silhouette_value)
 
 if __name__ == '__main__':
 	main()
