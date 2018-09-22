@@ -9,7 +9,9 @@ import pandas as pd
 import argparse
 import operator
 import copy
-from test_model import TestModel
+
+#from test_model import TestModel
+from k_means import KMeans
 
 #=============================
 # StepwiseForwardSelection
@@ -48,11 +50,12 @@ class StepwiseForwardSelection:
 		current_performance = -1
 		best_performance = -1
 		best_features = -1
-		best_model = TestModel(self.data, clusters)
-		chosen_model = best_model
+		#best_model = TestModel(self.data, clusters) #used only for testing
+		best_model = KMeans(self.data, clusters)
+		self.chosen_model = best_model
 
 		while (1):
-			num_chosen_features = len(chosen_features) #can be used as next column index to add to data set
+			num_chosen_features = len(chosen_features) #use as next col index of data
 			#print('number of chosen features:', num_chosen_features)
 			#print('Iterate over all features')
 			#print('------------------------')
@@ -77,11 +80,13 @@ class StepwiseForwardSelection:
 				chosen_data_set[num_chosen_features] = feature_vector
 				#print('chosen_data_set after concat:')
 				#print(chosen_data_set)
-				model = TestModel(chosen_data_set, 2)
+				#model = TestModel(chosen_data_set, 2)
+				model = KMeans(chosen_data_set, 2)
 				model.train()
 				current_performance = model.evaluate()
 
-				#print('best perf', best_performance, ' vs. current_perf', current_performance)
+				print('for feature ', column, 'best perf', best_performance, \
+						' vs. current_perf', current_performance)
 				if current_performance > best_performance:
 					best_performance = current_performance
 					best_model = model
@@ -105,18 +110,18 @@ class StepwiseForwardSelection:
 				base_performance = best_performance
 				chosen_features.append(best_feature)
 				chosen_data_set = best_data
-				chosen_model = best_model
+				self.chosen_model = best_model
 				#print('base performance now best perf', base_performance)
 				#print('chosen feature column', best_feature)
 				#print(chosen_data_set)
 			else:
 				break
 
-		#print('base performance', base_performance)
+		print('final best performance', base_performance)
 		#print('chosen features') 
 		#print(chosen_features)
 		#print(chosen_data_set)
-		return (chosen_features, chosen_data_set)
+		return chosen_features, chosen_data_set
 
 #=============================
 # MAIN PROGRAM
@@ -124,6 +129,7 @@ class StepwiseForwardSelection:
 def main():
 	print('Main() - testing the stepwise_forward_selection algorithm')
 
+	''' TESTING WITH TEST_MODEL, NOT KMEANS
 	print()
 	print('TEST 1:')
 	print('Dummy data, split into 2 clusters, total sum for evaluation')
@@ -142,6 +148,32 @@ def main():
 	print(results[0])
 	print('chosen data:')
 	print(results[1])
+	print()
+	'''
+
+	#TESTING WITH KMEANS
+	print()
+	print('TEST: (2 clusters, small data, 1 non-variable feature)')
+	input_data = pd.DataFrame([[1.0,1.1,4.0],[3.3,5.5,4.2],[1.2,0.9,4.1],[3.0,5.3, 4.1]])
+	print('input data:')
+	print(input_data)
+	num_clusters = 2
+	print()
+	print('RUN: (expect feature 1 chosen, cluster [A, B, A, B] && centroids [1, 5.4])')
+	print()
+	sfs = StepwiseForwardSelection(input_data)
+	chosen_features, chosen_data_set = sfs.run_sfs(num_clusters)
+	print()
+	print('RESULT:')
+	print('chosen features:')
+	print(chosen_features)
+	print('chosen data:')
+	print(chosen_data_set)
+	print('clusters:')
+	print(sfs.chosen_model.clusters)
+	print('centroids:')
+	print(sfs.chosen_model.centroids)
+	print()
 
 
 if __name__ == '__main__':

@@ -147,7 +147,7 @@ def main():
 	#print('Main - test kmeans')
 	print()
 	print('TEST: (2 clusters, small data)')
-	input_data = pd.DataFrame([[1.0,1.1],[3.3,5.5],[1.2,0.9],[3.0,5.3]])
+	input_data = pd.DataFrame([[1.0,1.1,4.0],[3.3,5.5,4.2],[1.2,0.9,4.1],[3.0,5.3, 4.1]])
 	print('input data:')
 	print(input_data)
 	num_clusters = 2
@@ -172,7 +172,7 @@ def main():
 	print(input_data)
 	num_clusters = 3
 	print()
-	print('TRAIN: ')
+	print('TRAIN: (expect cluster [A,A,A,B,B,B,C,C,C] && centroids [2-,], [8-], [14-]')
 	kmeans_model = KMeans(input_data, num_clusters)
 	centroids, clusters = kmeans_model.train()
 	print('clusters:')
