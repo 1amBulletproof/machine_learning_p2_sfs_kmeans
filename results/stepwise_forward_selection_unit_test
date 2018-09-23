@@ -10,15 +10,14 @@ input data:
 
 RUN: (expect feature 1 chosen, cluster [A, B, A, B] && centroids [1, 5.4])
 
-for feature  0 best perf -1  vs. current_perf 0.9387692835520253
-for feature  1 best perf 0.9387692835520253  vs. current_perf 0.9772609819121447
-for feature  2 best perf 0.9772609819121447  vs. current_perf 0.7500000000000019
-for feature  0 best perf 0.9772609819121447  vs. current_perf 0.9668617966602481
-for feature  2 best perf 0.9772609819121447  vs. current_perf 0.9745868681204135
-final best performance 0.9772609819121447
+for features  [0] best perf -1  vs. current_perf 0.9387692835520253
+for features  [1] best perf 0.9387692835520253  vs. current_perf 0.9772609819121447
+for features  [2] best perf 0.9772609819121447  vs. current_perf 0.7500000000000019
+for features  [1, 0] best perf 0.9772609819121447  vs. current_perf 0.9668617966602481
+for features  [1, 2] best perf 0.9772609819121447  vs. current_perf 0.9745868681204135
 
 RESULT:
-chosen features:
+chosen features (indexed from 0):
 [1]
 chosen data:
      0
@@ -26,9 +25,11 @@ chosen data:
 1  5.5
 2  0.9
 3  5.3
+best model silhouette coefficient
+0.9772609819121447
 clusters:
-[0. 1. 0. 1.]
+[1. 0. 1. 0.]
 centroids:
-[[1. ]
- [5.4]]
+[[5.4]
+ [1. ]]
 
