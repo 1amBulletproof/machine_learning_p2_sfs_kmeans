@@ -25,13 +25,24 @@ class KMeans(BaseModel) :
 	#@param	num_clusters	number of clusters to train
 	#=============================
 	def __init__(self, data, num_clusters):
-		BaseModel.__init__(self, data.values)
-		self.num_clusters = num_clusters
-		#initialize centroids to be random data points in data set (use numpy)
-		self.centroids = data.sample(num_clusters).values 
+		BaseModel.__init__(self, data.values )
 		self.num_data_rows = len(self.data) # convenience
-		#initialize clusters to effectively empty
-		self.clusters = np.zeros(self.num_data_rows)
+		self.num_clusters = num_clusters
+		self.clusters = np.zeros(self.num_data_rows) # init clusters to empty
+
+		# init centroids to be random data points in data set, but ensure all values are unique (otherwise empty clusters)
+		self.centroids = data.sample(num_clusters).values 
+		unique_centroids = np.unique(self.centroids, axis=0)
+		loop_counter = 0
+		self.valid_input = True # In case you want to sort into more clusters than you have unique pts
+		while (unique_centroids.size != self.centroids.size):
+			self.centroids = data.sample(num_clusters).values
+			unique_centroids = np.unique(self.centroids, axis=0)
+			loop_counter += 1
+			if loop_counter > 1000:
+				#print('WARNING: probably never finding a unique combination of starting centroids')
+				self.valid_input = False
+				break
 
 	#=============================
 	# get_euclidean_distance_vector()
@@ -50,7 +61,8 @@ class KMeans(BaseModel) :
 	#	- train on the data set
 	#=============================
 	def train(self):
-		#print('KMeans class training')
+		if (self.valid_input == False):
+			return self.centroids, self.clusters
 
 		#initialize distance between centroids to be not 0
 		distance_between_new_and_old_centroids = 999999.0
@@ -80,6 +92,7 @@ class KMeans(BaseModel) :
 				cluster_mean = np.mean(cluster_data_points, axis=y_axis)
 				self.centroids[cluster_idx] = cluster_mean
 
+
 			#Get the total distance between two matrixes
 			total_distance = None
 			distance_between_new_and_old_centroids = \
@@ -91,15 +104,15 @@ class KMeans(BaseModel) :
 	# get_point_silhouette_coefficient()
 	#=============================
 	def get_point_silhouette_coefficient(self, row_idx):
-		min_avg_distance_to_other_cluster = 1000 #This will ensure any value -1 -> 1 should be < therefore this val will be set by algorithm
+		min_avg_distance_to_other_cluster = 1000 #init to arbitrary large value so all calculated values are less-than
 		for cluster_idx in range(self.num_clusters):
-				#Get the data points corresponding to the current cluster
+			#Get the data points corresponding to the current cluster
 			cluster_data_points = \
-				[self.data[row] for row in range(self.num_data_rows) \
+					[self.data[row] for row in range(self.num_data_rows) \
 					if self.clusters[row] == cluster_idx]
 			between_rows = 1
 			distance_to_this_cluster = \
-				self.get_euclidean_distance_vector(self.data[row_idx], cluster_data_points, between_rows)
+					self.get_euclidean_distance_vector(self.data[row_idx], cluster_data_points, between_rows)
 			#IF this is my cluster, calculate the average distance to all points from me
 			if cluster_idx == self.clusters[row_idx]:
 				avg_distance_to_my_cluster = np.mean(distance_to_this_cluster)
@@ -108,13 +121,10 @@ class KMeans(BaseModel) :
 				avg_distance_to_this_other_cluster = np.mean(distance_to_this_cluster)
 				if avg_distance_to_this_other_cluster < min_avg_distance_to_other_cluster:
 					min_avg_distance_to_other_cluster = avg_distance_to_this_other_cluster
-				
-		#print('min_avg_distance_to_my_cluster')
-		#print(avg_distance_to_my_cluster)
-		#print('min_avg_distance_to_other_cluster')
-		#print(min_avg_distance_to_other_cluster)
+
 		point_silhouette_coefficient = (min_avg_distance_to_other_cluster - avg_distance_to_my_cluster) / \
 				max(avg_distance_to_my_cluster, min_avg_distance_to_other_cluster)
+
 		return point_silhouette_coefficient
 
 	#=============================
@@ -125,16 +135,18 @@ class KMeans(BaseModel) :
 	#@return	value of performance
 	#=============================
 	def evaluate(self):
-		#print('Evaluate Cluster Training')
+		if (self.valid_input == False):
+			#print('WARNING: could not find unique starting centroid values')
+			worst_performance_possible = -1
+			return worst_performance_possible
 
-		#Map get_silhouette_coefficient fcn onto every point in data?!
-			#- should result in array of coefficients
-		#for cluster_idx in range(self.clusters):
-			#self.cluster_silhouette_values[cluster_idx] = self.get_cluster_silhouette_coefficient(cluster_idx)
-			#Can use map, list comprehension, or vectorize here
+		#Alternative methods
 		#vector_get_point_silhouette_coefficient = np.vectorize(self.get_point_silhouette_coefficient)
 		#point_silhouette_values = vector_get_point_silhouette_coefficient(self.data)
-		point_silhouette_values = np.array([self.get_point_silhouette_coefficient(point) for point in range(self.num_data_rows)])
+
+		point_silhouette_values = \
+				np.array([self.get_point_silhouette_coefficient(point) for point in range(self.num_data_rows)])
+
 		final_silhouette_value = np.mean(point_silhouette_values)
 
 		return final_silhouette_value
