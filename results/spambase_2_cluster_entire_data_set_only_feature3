@@ -1,0 +1,91 @@
+
+INPUTS
+input file path: ../data/pre_processed_data/spambase_col3_feature_extracted.csv
+number of clusters:  2
+
+head of input data
+   0
+0  0
+1  0
+2  0
+3  0
+4  0
+
+for features  [0] best perf -1  vs. current_perf 0.998211796273093
+
+RESULT:
+Chosen features (indexed from 0):
+[0]
+Chosen data:
+      0
+0     0
+1     0
+2     0
+3     0
+4     0
+5     0
+6     0
+7     0
+8     0
+9     0
+10    0
+11    0
+12    0
+13    0
+14    0
+15    0
+16    0
+17    0
+18    0
+19    0
+20    0
+21    0
+22    0
+23    0
+24    0
+25    0
+26    0
+27    0
+28    0
+29    0
+...  ..
+4571  0
+4572  0
+4573  0
+4574  0
+4575  0
+4576  0
+4577  0
+4578  0
+4579  0
+4580  0
+4581  0
+4582  0
+4583  0
+4584  0
+4585  0
+4586  0
+4587  0
+4588  0
+4589  0
+4590  0
+4591  0
+4592  0
+4593  0
+4594  0
+4595  0
+4596  0
+4597  0
+4598  0
+4599  0
+4600  0
+
+[4601 rows x 1 columns]
+Best silhouette coefficient:
+0.998211796273093
+Clusters:
+[0. 0. 0. ... 0. 0. 0.]
+Centroids:
+[[0]
+ [5]]
+

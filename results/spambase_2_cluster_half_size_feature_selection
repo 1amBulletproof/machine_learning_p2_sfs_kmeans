@@ -1,0 +1,205 @@
+
+INPUTS
+input file path: ../data/pre_processed_data/spambase.data_small.csv
+number of clusters:  2
+
+head of input data
+     0     1     2    3     4   ...      52     53     54   55    56
+0  0.00  0.64  0.64  0.0  0.32  ...   0.000  0.000  3.756   61   278
+1  0.21  0.28  0.50  0.0  0.14  ...   0.180  0.048  5.114  101  1028
+2  0.06  0.00  0.71  0.0  1.23  ...   0.184  0.010  9.821  485  2259
+3  0.00  0.00  0.00  0.0  0.63  ...   0.000  0.000  3.537   40   191
+4  0.00  0.00  0.00  0.0  0.63  ...   0.000  0.000  3.537   40   191
+
+[5 rows x 57 columns]
+
+for features  [0] best perf -1  vs. current_perf 0.8533357563784751
+for features  [1] best perf 0.8533357563784751  vs. current_perf 0.9206000670258462
+for features  [2] best perf 0.9206000670258462  vs. current_perf 0.7148222695972246
+for features  [3] best perf 0.9206000670258462  vs. current_perf 0.9975754343609575
+for features  [4] best perf 0.9975754343609575  vs. current_perf 0.7610122104370717
+for features  [5] best perf 0.9975754343609575  vs. current_perf 0.8613574261392877
+for features  [6] best perf 0.9975754343609575  vs. current_perf 0.8717752865291079
+for features  [7] best perf 0.9975754343609575  vs. current_perf 0.8842825066876769
+for features  [8] best perf 0.9975754343609575  vs. current_perf 0.8871379603908054
+for features  [9] best perf 0.9975754343609575  vs. current_perf 0.8099557558750631
+for features  [10] best perf 0.9975754343609575  vs. current_perf 0.8794927445340309
+for features  [11] best perf 0.9975754343609575  vs. current_perf 0.7155481728357312
+for features  [12] best perf 0.9975754343609575  vs. current_perf 0.8853796982664701
+for features  [13] best perf 0.9975754343609575  vs. current_perf 0.9601998887598976
+for features  [14] best perf 0.9975754343609575  vs. current_perf 0.9705263170242233
+for features  [15] best perf 0.9975754343609575  vs. current_perf 0.8467727478320224
+for features  [16] best perf 0.9975754343609575  vs. current_perf 0.8768174626800886
+for features  [17] best perf 0.9975754343609575  vs. current_perf 0.8581649925551119
+for features  [18] best perf 0.9975754343609575  vs. current_perf 0.6113264599191734
+for features  [19] best perf 0.9975754343609575  vs. current_perf 0.9570155303865068
+for features  [20] best perf 0.9975754343609575  vs. current_perf 0.6892468275150506
+for features  [21] best perf 0.9975754343609575  vs. current_perf 0.990013881095772
+for features  [22] best perf 0.9975754343609575  vs. current_perf 0.8773452919982219
+for features  [23] best perf 0.9975754343609575  vs. current_perf 0.8966614059138197
+for features  [24] best perf 0.9975754343609575  vs. current_perf 0.9209120789705737
+for features  [25] best perf 0.9975754343609575  vs. current_perf 0.9091232843406473
+for features  [26] best perf 0.9975754343609575  vs. current_perf 0.9736383075993561
+for features  [27] best perf 0.9975754343609575  vs. current_perf 0.9464057201382443
+for features  [28] best perf 0.9975754343609575  vs. current_perf 0.9777420229322573
+for features  [29] best perf 0.9975754343609575  vs. current_perf 0.9439278503543077
+for features  [30] best perf 0.9975754343609575  vs. current_perf 0.9632804119776601
+for features  [31] best perf 0.9975754343609575  vs. current_perf 0.9839664123430437
+for features  [32] best perf 0.9975754343609575  vs. current_perf 0.9644848510845774
+for features  [33] best perf 0.9975754343609575  vs. current_perf 0.9832866995916086
+for features  [34] best perf 0.9975754343609575  vs. current_perf 0.9428381972919264
+for features  [35] best perf 0.9975754343609575  vs. current_perf 0.9247430335661756
+for features  [36] best perf 0.9975754343609575  vs. current_perf 0.9086207583824829
+for features  [37] best perf 0.9975754343609575  vs. current_perf 0.9931351054258158
+for features  [38] best perf 0.9975754343609575  vs. current_perf 0.9525682487845177
+for features  [39] best perf 0.9975754343609575  vs. current_perf 0.962512953632037
+for features  [40] best perf 0.9975754343609575  vs. current_perf 0.9932953483578004
+for features  [41] best perf 0.9975754343609575  vs. current_perf 0.9730668943732954
+for features  [42] best perf 0.9975754343609575  vs. current_perf 0.9593548184188427
+for features  [43] best perf 0.9975754343609575  vs. current_perf 0.9860930204645082
+for features  [44] best perf 0.9975754343609575  vs. current_perf 0.9380174098817023
+for features  [45] best perf 0.9975754343609575  vs. current_perf 0.9811355625029654
+for features  [46] best perf 0.9975754343609575  vs. current_perf 0.9968727881341829
+for features  [47] best perf 0.9975754343609575  vs. current_perf 0.9846091183462561
+for features  [48] best perf 0.9975754343609575  vs. current_perf 0.9632653978538709
+for features  [49] best perf 0.9975754343609575  vs. current_perf 0.7361322004501586
+for features  [50] best perf 0.9975754343609575  vs. current_perf 0.9370627785905882
+for features  [51] best perf 0.9975754343609575  vs. current_perf 0.7640782757190505
+for features  [52] best perf 0.9975754343609575  vs. current_perf 0.8446939056043086
+for features  [53] best perf 0.9975754343609575  vs. current_perf 0.9938284402257377
+for features  [54] best perf 0.9975754343609575  vs. current_perf 0.98769933421078
+for features  [55] best perf 0.9975754343609575  vs. current_perf 0.9130863565621158
+for features  [56] best perf 0.9975754343609575  vs. current_perf 0.7332605910305269
+for features  [3, 0] best perf 0.9975754343609575  vs. current_perf 0.9918193767656842
+for features  [3, 1] best perf 0.9975754343609575  vs. current_perf 0.8696558595572936
+for features  [3, 2] best perf 0.9975754343609575  vs. current_perf 0.6122348704211772
+for features  [3, 4] best perf 0.9975754343609575  vs. current_perf 0.9812111334468433
+for features  [3, 5] best perf 0.9975754343609575  vs. current_perf 0.992041571888778
+for features  [3, 6] best perf 0.9975754343609575  vs. current_perf 0.9887446030669321
+for features  [3, 7] best perf 0.9975754343609575  vs. current_perf 0.9913160602617433
+for features  [3, 8] best perf 0.9975754343609575  vs. current_perf 0.7522065978109763
+for features  [3, 9] best perf 0.9975754343609575  vs. current_perf 0.7248851925698051
+for features  [3, 10] best perf 0.9975754343609575  vs. current_perf 0.9937084699082526
+for features  [3, 11] best perf 0.9975754343609575  vs. current_perf 0.6565621849396976
+for features  [3, 12] best perf 0.9975754343609575  vs. current_perf 0.7642260501670578
+for features  [3, 13] best perf 0.9975754343609575  vs. current_perf 0.8751013234830056
+for features  [3, 14] best perf 0.9975754343609575  vs. current_perf 0.8999475201456699
+for features  [3, 15] best perf 0.9975754343609575  vs. current_perf 0.9831430591104248
+for features  [3, 16] best perf 0.9975754343609575  vs. current_perf 0.9882545043801458
+for features  [3, 17] best perf 0.9975754343609575  vs. current_perf 0.7796651660738999
+for features  [3, 18] best perf 0.9975754343609575  vs. current_perf 0.5802658238870968
+for features  [3, 19] best perf 0.9975754343609575  vs. current_perf 0.991090358324679
+for features  [3, 20] best perf 0.9975754343609575  vs. current_perf 0.6499358895181733
+for features  [3, 21] best perf 0.9975754343609575  vs. current_perf 0.9787997722201776
+for features  [3, 22] best perf 0.9975754343609575  vs. current_perf 0.7812506145051598
+for features  [3, 23] best perf 0.9975754343609575  vs. current_perf 0.9918532130542504
+for features  [3, 24] best perf 0.9975754343609575  vs. current_perf 0.9055161429740187
+for features  [3, 25] best perf 0.9975754343609575  vs. current_perf 0.8709583010112008
+for features  [3, 26] best perf 0.9975754343609575  vs. current_perf 0.9652112189483573
+for features  [3, 27] best perf 0.9975754343609575  vs. current_perf 0.9908515149488893
+for features  [3, 28] best perf 0.9975754343609575  vs. current_perf 0.9552948220984074
+for features  [3, 29] best perf 0.9975754343609575  vs. current_perf 0.8692913898689527
+for features  [3, 30] best perf 0.9975754343609575  vs. current_perf 0.9054918455058615
+for features  [3, 31] best perf 0.9975754343609575  vs. current_perf 0.9465597568159495
+for features  [3, 32] best perf 0.9975754343609575  vs. current_perf 0.917614496963382
+for features  [3, 33] best perf 0.9975754343609575  vs. current_perf 0.9459634605698353
+for features  [3, 34] best perf 0.9975754343609575  vs. current_perf 0.8824865796277493
+for features  [3, 35] best perf 0.9975754343609575  vs. current_perf 0.8304336091950775
+for features  [3, 36] best perf 0.9975754343609575  vs. current_perf 0.9911720290047923
+for features  [3, 37] best perf 0.9975754343609575  vs. current_perf 0.7537192464008411
+for features  [3, 38] best perf 0.9975754343609575  vs. current_perf 0.9940080930977548
+for features  [3, 39] best perf 0.9975754343609575  vs. current_perf 0.914815931032123
+for features  [3, 40] best perf 0.9975754343609575  vs. current_perf 0.9574949102906721
+for features  [3, 41] best perf 0.9975754343609575  vs. current_perf 0.9405652927892583
+for features  [3, 42] best perf 0.9975754343609575  vs. current_perf 0.8428159770305931
+for features  [3, 43] best perf 0.9975754343609575  vs. current_perf 0.954447529147307
+for features  [3, 44] best perf 0.9975754343609575  vs. current_perf 0.9146384705019883
+for features  [3, 45] best perf 0.9975754343609575  vs. current_perf 0.9258591929374982
+for features  [3, 46] best perf 0.9975754343609575  vs. current_perf 0.9974034213543433
+for features  [3, 47] best perf 0.9975754343609575  vs. current_perf 0.9962303999620926
+for features  [3, 48] best perf 0.9975754343609575  vs. current_perf 0.7371325188227283
+for features  [3, 49] best perf 0.9975754343609575  vs. current_perf 0.3843934957461585
+for features  [3, 50] best perf 0.9975754343609575  vs. current_perf 0.06107759742321088
+for features  [3, 51] best perf 0.9975754343609575  vs. current_perf 0.9849154975556852
+for features  [3, 52] best perf 0.9975754343609575  vs. current_perf 0.9930588102570682
+for features  [3, 53] best perf 0.9975754343609575  vs. current_perf 0.9950364193521019
+for features  [3, 54] best perf 0.9975754343609575  vs. current_perf 0.9874034659892043
+for features  [3, 55] best perf 0.9975754343609575  vs. current_perf 0.9130288599015146
+for features  [3, 56] best perf 0.9975754343609575  vs. current_perf 0.7332394246606371
+
+RESULT:
+Chosen features (indexed from 0):
+[3]
+Chosen data:
+         0
+0     0.00
+1     0.00
+2     0.00
+3     0.00
+4     0.00
+5     0.00
+6     0.00
+7     0.00
+8     0.00
+9     0.00
+10    0.00
+11    0.00
+12    0.00
+13    0.00
+14    0.00
+15    0.00
+16    0.00
+17    0.00
+18    0.00
+19    0.00
+20    0.00
+21    0.00
+22    0.00
+23    0.00
+24    0.00
+25    0.00
+26    0.00
+27    0.00
+28    0.00
+29    0.00
+...    ...
+1969  0.87
+1970  0.00
+1971  0.00
+1972  0.00
+1973  0.00
+1974  0.00
+1975  0.00
+1976  0.00
+1977  0.00
+1978  0.00
+1979  0.00
+1980  0.00
+1981  0.00
+1982  0.00
+1983  0.00
+1984  0.00
+1985  0.00
+1986  0.00
+1987  0.00
+1988  0.00
+1989  0.00
+1990  0.00
+1991  0.00
+1992  0.00
+1993  0.00
+1994  0.00
+1995  0.00
+1996  0.00
+1997  0.00
+1998  0.00
+
+[1999 rows x 1 columns]
+Best silhouette coefficient:
+0.9975754343609575
+Clusters:
+[0. 0. 0. ... 0. 0. 0.]
+Centroids:
+[[2.53209629e-02]
+ [3.46040000e+01]]
+
